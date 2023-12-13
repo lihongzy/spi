@@ -1,8 +1,8 @@
 # SPI机制在Java和Spring中的应用
 
->我编写这篇博客的主要原因是为了==帮助理解springboot中spring.factories中自动装配的原理==
+>我编写这篇博客的主要原因是为了==帮助理解springboot中spring.factories中自动装配的原理以及网上文章对他的误解==
 >
->github地址：[lihongzy/spi (github.com)](https://github.com/lihongzy/spi)
+>所有代码都在github上——github地址：[lihongzy/spi (github.com)](https://github.com/lihongzy/spi)
 
 ## 什么是SPI机制
 
@@ -65,7 +65,7 @@ SPI 机制使得应用程序可以在运行时动态地加载模块或插件，�
 
 ## SPI机制在Spring中的应用
 
-> **注意**：在springboot中自从2.7.x（好像是，不记得了）已经移除了通过spring.factories自动注入而是通过org.springframework.boot.autoconfigure.AutoConfiguration.imports来实现自动注入可以参考我github上的例子：
+> **注意**：在springboot中自从2.7.x（好像是，不记得了）已经移除了通过spring.factories自动注入而是通过org.springframework.boot.autoconfigure.AutoConfiguration.imports来实现自动注入可以参考我github上的例子：[lihongzy/spi (github.com)](https://github.com/lihongzy/spi)
 
 在springboot中也有一种类似的加载机制，它在META-INF/spring.factories文件中配置接口的实现名称，然后在程序中读取这些配置文件并实例化。
 
@@ -121,3 +121,65 @@ com.lihong.spispring.MyService=com.lihong.spispring.MyServiceImpl
 
 ![运行结果-spi-spring](assets/images/运行结果-spi-spring.png)
 
+## spring-boot-autoconfigure包中的spring.factories文件
+
+在Spring Boot 的很多包中都能够找到spring.factories，下面就是spring-boot-autoconfigure 包中的spring.factories文件
+
+```shell
+# ApplicationContext Initializers
+org.springframework.context.ApplicationContextInitializer=\
+org.springframework.boot.autoconfigure.SharedMetadataReaderFactoryContextInitializer,\
+org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener
+
+# Application Listeners
+org.springframework.context.ApplicationListener=\
+org.springframework.boot.autoconfigure.BackgroundPreinitializer
+
+# Environment Post Processors
+org.springframework.boot.env.EnvironmentPostProcessor=\
+org.springframework.boot.autoconfigure.integration.IntegrationPropertiesEnvironmentPostProcessor
+
+# Auto Configuration Import Listeners
+org.springframework.boot.autoconfigure.AutoConfigurationImportListener=\
+org.springframework.boot.autoconfigure.condition.ConditionEvaluationReportAutoConfigurationImportListener
+
+# Auto Configuration Import Filters
+org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\
+org.springframework.boot.autoconfigure.condition.OnBeanCondition,\
+org.springframework.boot.autoconfigure.condition.OnClassCondition,\
+org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition
+
+# Failure Analyzers
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+org.springframework.boot.autoconfigure.data.redis.RedisUrlSyntaxFailureAnalyzer,\
+org.springframework.boot.autoconfigure.diagnostics.analyzer.NoSuchBeanDefinitionFailureAnalyzer,\
+org.springframework.boot.autoconfigure.flyway.FlywayMigrationScriptMissingFailureAnalyzer,\
+org.springframework.boot.autoconfigure.jdbc.DataSourceBeanCreationFailureAnalyzer,\
+org.springframework.boot.autoconfigure.jdbc.HikariDriverConfigurationFailureAnalyzer,\
+org.springframework.boot.autoconfigure.jooq.NoDslContextBeanFailureAnalyzer,\
+org.springframework.boot.autoconfigure.r2dbc.ConnectionFactoryBeanCreationFailureAnalyzer,\
+org.springframework.boot.autoconfigure.r2dbc.MissingR2dbcPoolDependencyFailureAnalyzer,\
+org.springframework.boot.autoconfigure.r2dbc.MultipleConnectionPoolConfigurationsFailureAnalyzer,\
+org.springframework.boot.autoconfigure.r2dbc.NoConnectionFactoryBeanFailureAnalyzer
+
+# Template Availability Providers
+org.springframework.boot.autoconfigure.template.TemplateAvailabilityProvider=\
+org.springframework.boot.autoconfigure.freemarker.FreeMarkerTemplateAvailabilityProvider,\
+org.springframework.boot.autoconfigure.mustache.MustacheTemplateAvailabilityProvider,\
+org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAvailabilityProvider,\
+org.springframework.boot.autoconfigure.thymeleaf.ThymeleafTemplateAvailabilityProvider,\
+org.springframework.boot.autoconfigure.web.servlet.JspTemplateAvailabilityProvider
+
+# DataSource Initializer Detectors
+org.springframework.boot.sql.init.dependency.DatabaseInitializerDetector=\
+org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializerDatabaseInitializerDetector
+
+# Depends on Database Initialization Detectors
+org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitializationDetector=\
+org.springframework.boot.autoconfigure.batch.JobRepositoryDependsOnDatabaseInitializationDetector,\
+org.springframework.boot.autoconfigure.quartz.SchedulerDependsOnDatabaseInitializationDetector,\
+org.springframework.boot.autoconfigure.session.JdbcIndexedSessionRepositoryDependsOnDatabaseInitializationDetector
+
+```
+
+==**注意**==：在高版本的springboot中已经不支持通过spring.factories机制来自动注入组件，而是通过==org.springframework.boot.autoconfigure.AutoConfiguration.imports==该文件来实现

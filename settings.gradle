@@ -1,4 +1,5 @@
 rootProject.name = 'spi'
 include 'spi-java'
 include 'spi-spring'
-
+include 'my-springboot-starter'
+include 'my-springboot-starter-test'

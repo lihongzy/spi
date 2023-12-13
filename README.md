@@ -10,7 +10,7 @@
 
 SPI机制整体机制图如下：
 
-![Java SPI机制](/assets/images/Java%20SPI机制.jpg)
+![Java SPI机制](assets/images/Java%20SPI机制.jpg)
 
 以下是 SPI 机制的基本工作原理：
 
@@ -65,6 +65,8 @@ SPI 机制使得应用程序可以在运行时动态地加载模块或插件，�
 
 ## SPI机制在Spring中的应用
 
+> **注意**：在springboot中自从2.7.x（好像是，不记得了）已经移除了通过spring.factories自动注入而是通过org.springframework.boot.autoconfigure.AutoConfiguration.imports来实现自动注入可以参考我github上的例子：
+
 在springboot中也有一种类似的加载机制，它在META-INF/spring.factories文件中配置接口的实现名称，然后在程序中读取这些配置文件并实例化。
 
 这种自定义的SPI机制就是SpringBoot starter实现的基础。
@@ -114,3 +116,8 @@ com.lihong.spispring.MyService=com.lihong.spispring.MyServiceImpl
 代码结构：
 
 ![代码结构-spi-spring](assets/images/代码结构-spi-spring.png)
+
+运行结果：
+
+![运行结果-spi-spring](assets/images/运行结果-spi-spring.png)
+

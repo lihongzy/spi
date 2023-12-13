@@ -1,6 +1,8 @@
 # SPI机制在Java和Spring中的应用
 
 >我编写这篇博客的主要原因是为了==帮助理解springboot中spring.factories中自动装配的原理==
+>
+>github地址：[lihongzy/spi (github.com)](https://github.com/lihongzy/spi)
 
 ## 什么是SPI机制
 
@@ -53,6 +55,14 @@ for (MyService service : serviceLoader) {
 
 SPI 机制使得应用程序可以在运行时动态地加载模块或插件，而不需要在编译时硬编码这些实现。这种机制在许多 Java 标准库和框架中得到了广泛应用，例如 Java Database Connectivity (JDBC)、Java Cryptography Architecture (JCA) 等。
 
+代码结构：
+
+![代码结构-spi-java](assets\images\代码结构-spi-java.png)
+
+运行结果：
+
+![运行结果-spi-java](assets/images/运行结果-spi-java.png)
+
 ## SPI机制在Spring中的应用
 
 在springboot中也有一种类似的加载机制，它在META-INF/spring.factories文件中配置接口的实现名称，然后在程序中读取这些配置文件并实例化。
@@ -101,3 +111,6 @@ com.lihong.spispring.MyService=com.lihong.spispring.MyServiceImpl
         }
 ```
 
+代码结构：
+
+![代码结构-spi-spring](assets/images/代码结构-spi-spring.png)

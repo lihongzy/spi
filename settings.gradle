@@ -1,0 +1,4 @@
+rootProject.name = 'spi'
+include 'spi-java'
+include 'spi-spring'
+

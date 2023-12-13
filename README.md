@@ -8,7 +8,7 @@
 
 SPI机制整体机制图如下：
 
-![](./assets/Java SPI机制.jpg)
+![](https://github.com/lihongzy/spi/edit/master/assets/Java%20SPI%E6%9C%BA%E5%88%B6.jpg)
 
 以下是 SPI 机制的基本工作原理：
 
